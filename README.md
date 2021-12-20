@@ -1,4 +1,5 @@
 # cordova-plugin-ios-xhr
+
 ## cordova-ios 6+ File XHR Plugin
 
 ### Preface
@@ -23,7 +24,7 @@
 
 > Install latest release
 
-     cordova plugin add @castana/cordova-plugin-ios-xhr
+     cordova plugin add @brodybits/cordova-plugin-ios-xhr
      
 > Or install from github master
 
@@ -31,7 +32,7 @@
      
 ### Uninstall
 
-     cordova plugin rm @castana/cordova-plugin-ios-xhr
+     cordova plugin rm @brodybits/cordova-plugin-ios-xhr
      
 ### Preferences
 
