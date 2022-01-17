@@ -35,6 +35,8 @@
 #import "CDVWKWebViewFileXhr.h"
 #import <Cordova/CDV.h>
 
+#import "ClientCertificate.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 
@@ -314,19 +316,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
  completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential * _Nullable credential))completionHandler {
-    
+    // ---
+    NSLog(@"URL session auth challenge");
     if (_allowsInsecureLoads) {
         SecTrustRef serverTrust = challenge.protectionSpace.serverTrust;
         if (serverTrust) {
           CFDataRef exceptions = SecTrustCopyExceptions (serverTrust);
           SecTrustSetExceptions (serverTrust, exceptions);
           CFRelease (exceptions);
+          NSLog(@"FINISH URL session auth challenge with credential from server trust");
           completionHandler (NSURLSessionAuthChallengeUseCredential, [NSURLCredential credentialForTrust:serverTrust]); // FortityFalsePositive
          
           return;
         }
     }
-    completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, nil);
+    [ClientCertificate didReceiveAuthenticationChallenge:challenge completionHandler:completionHandler withOptionsNullable:nil];
+    NSLog(@"FINISHED URL session auth challenge callback");
 }
 
 
